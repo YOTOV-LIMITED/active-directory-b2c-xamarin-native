@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Active-directory-b2c-xamarin-native by YOTOV-LIMITED</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Active-directory-b2c-xamarin-native</h1>
+      <h2 class="project-tagline">This is a simple Xamarin Forms app showcasing how to use MSAL to authenticate users via Azure Active Directory B2C, and access a Web API with the resulting tokens.</h2>
+      <a href="https://github.com/YOTOV-LIMITED/active-directory-b2c-xamarin-native" class="btn">View on GitHub</a>
+      <a href="https://github.com/YOTOV-LIMITED/active-directory-b2c-xamarin-native/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/YOTOV-LIMITED/active-directory-b2c-xamarin-native/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <hr>
+
+<p>services: active-directory
+platforms: dotnet, xamarin</p>
+
+<h2>
+<a id="author-vibronet" class="anchor" href="#author-vibronet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>author: vibronet</h2>
+
+<h1>
+<a id="integrate-azure-ad-b2c-into-a-xamarin-forms-app-using-msal" class="anchor" href="#integrate-azure-ad-b2c-into-a-xamarin-forms-app-using-msal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Integrate Azure AD B2C into a Xamarin forms app using MSAL</h1>
+
+<p>This is a simple Xamarin Forms app showcasing how to use MSAL to authenticate users via Azure Active Directory B2C, and access an ASP.NET Web API with the resulting token.  For more information on Azure B2C, see <a href="https://azure.microsoft.com/en-us/documentation/services/active-directory-b2c/">the Azure AD B2C documentation homepage</a>.</p>
+
+<blockquote>
+<p>Please note this sample is known to have frequent issues using Social IDPs.  Please check the issues on Github for more detail.  To guarantee this sample runs correctly, we recommend using local accounts.</p>
+</blockquote>
+
+<h2>
+<a id="how-to-run-this-sample" class="anchor" href="#how-to-run-this-sample" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Run This Sample</h2>
+
+<p>To run this sample you will need:</p>
+
+<ul>
+<li>Visual Studio 2015</li>
+<li>An Internet connection</li>
+<li>An Azure AD B2C tenant</li>
+</ul>
+
+<p>If you don't have an Azure AD B2C tenant, you can follow <a href="https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-get-started/">those instructions</a> to create one. 
+If you just want to see the sample in action, you don't need to create your own tenant as the project comes with some settings associated to a test tenant and application; however it is highly recommend that you register your own app and experience going through the configuration steps below.   </p>
+
+<h3>
+<a id="step-1--clone-or-download-this-repository" class="anchor" href="#step-1--clone-or-download-this-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 1:  Clone or download this repository</h3>
+
+<p>From your shell or command line:</p>
+
+<p><code>git clone https://github.com/Azure-Samples/active-directory-b2c-xamarin-native.git</code></p>
+
+<h3>
+<a id="step-2-optional-create-an-azure-ad-b2c-application" class="anchor" href="#step-2-optional-create-an-azure-ad-b2c-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 2: [OPTIONAL] Create an Azure AD B2C application</h3>
+
+<p>You can run the sample as is with its current settings, or you can optionally register it as a new application under your own developer account. Creating your own app is highly recommended.</p>
+
+<blockquote>
+<p><em>IMPORTANT</em>: if you choose to perform one of the optional steps, you have to perform ALL of them for the sample to work as expected.</p>
+</blockquote>
+
+<p>You can find detailed instructions on how to create a new app on <a href="https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-app-registration/">this page</a> Make sure to:</p>
+
+<ul>
+<li>Copy down the <strong>Application Id</strong> assigned to your app, you'll need it in the next optional steps.</li>
+<li>Include both a <strong>Native Client</strong> in your app.</li>
+</ul>
+
+<h3>
+<a id="step-3-optional-create-a-sign-up-or-sign-in-policy" class="anchor" href="#step-3-optional-create-a-sign-up-or-sign-in-policy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 3: [OPTIONAL] Create a "Sign up or Sign In" policy</h3>
+
+<p>This sample requires your B2C app to have a policy of type "Sign Up or Sign In".
+You can follow the instructions in <a href="https://azure.microsoft.com/en-us/documentation/articles/active-directory-b2c-reference-policies/#how-to-create-a-sign-up-policy">this tutorial</a> to create one.
+Once created, replace the following value in the <code>TaskClient/App.cs</code> file with your own policy name.  All B2C policies should begin with <code>b2c_1_</code>.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">string</span> SignUpSignInpolicy = <span class="pl-s"><span class="pl-pds">"</span>b2c_1_susi<span class="pl-pds">"</span></span>;</pre></div>
+
+<h3>
+<a id="step-4-optional-configure-the-mobile-app" class="anchor" href="#step-4-optional-configure-the-mobile-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 4: [OPTIONAL] Configure the mobile app</h3>
+
+<ol>
+<li>Open the solution in Visual Studio 2015.</li>
+<li>Open the <code>TaskClient\App.cs</code> file.</li>
+<li>Find the assignment for <code>public static string ClientID</code> and replace the value with the Application ID from the app registration portal from Step 2.</li>
+<li>Find the assignment for <code>Authority</code> one line below and change it to point to your Azure AD B2C tenant.  Your Azure AD B2C tenant name most likely takes the format <code>*.onmicrosoft.com</code>.<br>
+</li>
+</ol>
+
+<h3>
+<a id="step-5--run-the-solution" class="anchor" href="#step-5--run-the-solution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 5:  Run the solution</h3>
+
+<p>Choose the platform you want to work on by setting the startup project in the Solution Explorer. Make sure that your platform of choice is marked for build and deploy in the Configuration Manager.
+Clean the solution, rebuild the solution, and run it.
+Click the Sign in or Sign up button at the bottom of the application screen. On the credentials gathering screen, choose sign up and go through the sign up experience. 
+As soon as you successfully sign up, you will be transported to a screen where you can create new tasks. Also, the button at the bottom of the screen will turn into a Sign out button. 
+Create some random tasks, then close the application and reopen it. You will see that the app retains access to the API and retrieves the tasks list right away, without the need to sign in again.
+Sign out by clicking the Sign out button and confirm that you lose access to the API until the next interactive sign in. Note that now that you signed your test user up, you will be able to choose the sign in path at authentication experience time.</p>
+
+<h2>
+<a id="about-the-code" class="anchor" href="#about-the-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About the code</h2>
+
+<p>The structure of the solution is straightforward. All the application logic and UX reside in TaskClient (portable).
+TaskClient.Droid and TaskClient.iOS both include a WelcomePageRenderer and a TasksPageRenderer class, both used for assigning values at runtime to the <code>PlatformParameters</code> property of the paged. The <code>PlatformParameters</code> construct is used by MSAL for understanding at runtime on which platform it is running  - so that it can select the right authentication UX and token storage. Please note, MSAL does not need <code>PlatformParameters</code> for UWP apps. Also, technically TaskPage would not need a renderer either, given that in this sample that page never triggers interactive authentication. However we included one in case you want to add that functionality.
+TaskClient.Droid requires one extra line of code to be added in the MainActivity.cs file:</p>
+
+<pre><code>AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
+
+</code></pre>
+
+<p>That line is used in <code>OnActivityResult</code> to ensure that the control goes back to MSAL once the interactive portion of the authentication flow ended.</p>
+
+<p>The MSAL main primitive, <code>PublicClientApplication</code>, is initialized as a static variable in App.cs.
+At application startup, WelcomePage attempts to get a token without showing any UX - just in case a suitable token is already present in the cache from previous sessions. This is the code performing that logic:</p>
+
+<pre><code>protected override async void OnAppearing()
+{
+    App.PCA.PlatformParameters = platformParameters;
+    // let's see if we have a user in our belly already
+    try
+    {
+        AuthenticationResult ar = await App.PCApplication.AcquireTokenSilentAsync(App.Scopes, "", App.Authority, App.SignUpSignInpolicy, false);
+        Navigation.PushAsync(new TasksPage());
+    }
+</code></pre>
+
+<p>Note that this code is also used for assigning the previously mentioned MSAL's <code>PlatformParameters</code> with the <code>platformParameters</code> value, itself assigned by the platform specific PageRenderer as discussed. 
+If the attempt to obtain a token silently fails, we do nothing and display the screen with the sign in/sign up button. If the attempt is successful, we navigate directly to TasksPage.
+When the sign in/sign up button is pressed, we execute the same logic - but using a method that shows interactive UX:</p>
+
+<pre><code>AuthenticationResult ar = await App.PCApplication.AcquireTokenAsync(App.Scopes, "", UiOptions.SelectAccount, string.Empty, null, App.Authority, App.SignUpSignInpolicy);
+</code></pre>
+
+<p>The TasksPage attempts a silent token acquisition directly at load time - and given that the app navigates ot this page only upon a successful sign in/up or token acquisition, normally the operation will succeed.<br>
+Following that, the page uses the token just obtained to secure a call to the web API, which results in a list of tasks.
+The task creation logic works similarly.</p>
+
+<p>The sign out logic is very simple.                </p>
+
+<pre><code>App.PCApplication.UserTokenCache.Clear(App.PCApplication.ClientId);
+</code></pre>
+
+<h2>
+<a id="more-information" class="anchor" href="#more-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>More information</h2>
+
+<p>For more information on Azure B2C, see <a href="https://azure.microsoft.com/en-us/documentation/services/active-directory-b2c/">the Azure AD B2C documentation homepage</a>.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/YOTOV-LIMITED/active-directory-b2c-xamarin-native">Active-directory-b2c-xamarin-native</a> is maintained by <a href="https://github.com/YOTOV-LIMITED">YOTOV-LIMITED</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
